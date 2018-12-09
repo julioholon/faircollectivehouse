@@ -1,0 +1,1142 @@
+{
+  # This is a holochain scaffold yaml definition. http://ceptr.org/projects/holochain
+
+  # DNA File Version
+  # Version indicator for changes to DNA
+  "Version": "0.0.1",
+  "Generator": "hc-scaffold:0.1.0+e8a394b",
+
+  # Application DNA
+  # The DNA specifies the entry structure and functions and configuration of your application
+  "DNA": {
+
+    # DNA File Version
+    # Version indicator for changes to DNA
+    "Version": 1,
+
+    # DNA Unique ID
+    # This ID differentiates your app from others. For example, to tell one Slack team from another which same code.
+    "UUID": "4863d923-02aa-4a4e-abac-34d1d56582af",
+
+    # Application Name
+    # What would you like to call your holochain app?
+    "Name": "faircollectivehouse",
+
+    # Properties
+    # Properties that you want available across all Zomes.
+    "Properties": {
+
+      # Application Description
+      # Briefly describe your holochain app.
+      "description": "Managing fair collective houses",
+
+      # Language
+      # The base (human) language of this holochain app.
+      "language": "en"
+    },
+
+    # Properties Schema File
+    # Describes the entries in the Properties section of your dna file.
+    "PropertiesSchemaFile": "properties_schema.json",
+
+    # DHT Settings
+    # Configure the properties of your Distributed Hash Table (e.g. hash algorithm, neighborhood size, etc.).
+    "DHTConfig": {
+      "HashType": "sha2-256"
+    },
+
+    # Zomes
+    # List the Zomes your application will support.
+    "Zomes": [
+      {
+
+        # Zome Name
+        # The name of this code module.
+        "Name": "currencies",
+
+        # Zome Description
+        # What is the purpose of this module?
+        "Description": "Transactions for the fungible transferable currency",
+
+        # Ribosome Type
+        # What scripting language will you code in?
+        "RibosomeType": "js",
+
+        # Code File
+        # Points to the main script file for this Zome.
+        "CodeFile": "currencies.js",
+
+        # Zome Entries
+        # Data stored and tracked by your Zome.
+        "Entries": [
+          {
+            "Name": "transaction", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"from\",\n    \"to\",\n    \"type\",\n    \"amount\",\n    \"notes\"\n  ],\n  \"properties\": {\n    \"from\": {\n      \"$id\": \"#/properties/from\",\n      \"type\": \"string\",\n      \"title\": \"The From Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"UserOrContextHash\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"to\": {\n      \"$id\": \"#/properties/to\",\n      \"type\": \"string\",\n      \"title\": \"The To Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"UserOrContextHash\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"type\": {\n      \"$id\": \"#/properties/type\",\n      \"type\": \"string\",\n      \"title\": \"The Type Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"TypeHash\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"amount\": {\n      \"$id\": \"#/properties/amount\",\n      \"type\": \"integer\",\n      \"title\": \"The Amount Schema\",\n      \"default\": 0,\n      \"examples\": [\n        1\n      ]\n    },\n    \"notes\": {\n      \"$id\": \"#/properties/notes\",\n      \"type\": \"string\",\n      \"title\": \"The Notes Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"A simple transfer\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+            "_": "c"
+          },
+          {
+            "Name": "receipt", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"txHash\",\n    \"signature\"\n  ],\n  \"properties\": {\n    \"txHash\": {\n      \"$id\": \"#/properties/txHash\",\n      \"type\": \"string\",\n      \"title\": \"The Txhash Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"OriginalTx commit hash\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"signature\": {\n      \"$id\": \"#/properties/signature\",\n      \"type\": \"string\",\n      \"title\": \"The Signature Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"RecipientSignature\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+            "_": "c"
+          },
+          {
+            "Name": "approval", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"amount\",\n    \"type\",\n    \"needed_signatures\",\n    \"targets\",\n    \"signatures\"\n  ],\n  \"properties\": {\n    \"amount\": {\n      \"$id\": \"#/properties/amount\",\n      \"type\": \"integer\",\n      \"title\": \"The Amount Schema\",\n      \"default\": 0,\n      \"examples\": [\n        1000\n      ]\n    },\n    \"type\": {\n      \"$id\": \"#/properties/type\",\n      \"type\": \"string\",\n      \"title\": \"The Type Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"Currency Type Hash\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"needed_signatures\": {\n      \"$id\": \"#/properties/needed_signatures\",\n      \"type\": \"integer\",\n      \"title\": \"The Needed_signatures Schema\",\n      \"default\": 0,\n      \"examples\": [\n        2\n      ]\n    },\n    \"targets\": {\n      \"$id\": \"#/properties/targets\",\n      \"type\": \"object\",\n      \"title\": \"The Targets Schema\",\n      \"required\": [\n        \"A\",\n        \"B\"\n      ],\n      \"properties\": {\n        \"A\": {\n          \"$id\": \"#/properties/targets/properties/A\",\n          \"type\": \"integer\",\n          \"title\": \"The A Schema\",\n          \"default\": 0,\n          \"examples\": [\n            10\n          ]\n        },\n        \"B\": {\n          \"$id\": \"#/properties/targets/properties/B\",\n          \"type\": \"integer\",\n          \"title\": \"The B Schema\",\n          \"default\": 0,\n          \"examples\": [\n            90\n          ]\n        }\n      }\n    },\n    \"signatures\": {\n      \"$id\": \"#/properties/signatures\",\n      \"type\": \"array\",\n      \"title\": \"The Signatures Schema\",\n      \"items\": {\n        \"$id\": \"#/properties/signatures/items\",\n        \"type\": \"string\",\n        \"title\": \"The Items Schema\",\n        \"default\": \"\",\n        \"examples\": [\n          \"A\",\n          \"B\"\n        ],\n        \"pattern\": \"^(.*)$\"\n      }\n    }\n  }\n}",
+            "_": "crud"
+          },
+          {
+            "Name": "limit", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"total\",\n    \"type\"\n  ],\n  \"properties\": {\n    \"total\": {\n      \"$id\": \"#/properties/total\",\n      \"type\": \"integer\",\n      \"title\": \"The Total Schema\",\n      \"default\": 0,\n      \"examples\": [\n        1000\n      ]\n    },\n    \"type\": {\n      \"$id\": \"#/properties/type\",\n      \"type\": \"string\",\n      \"title\": \"The Type Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"The actual currency name\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+            "_": "crud"
+          }
+        ],
+
+        # Zome Functions
+        # Functions which can be called in your Zome's API.
+        "Functions": [
+          {
+            "Name": "transactionCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:transaction"
+          },
+          {
+            "Name": "receiptCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:receipt"
+          },
+          {
+            "Name": "approvalCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:approval"
+          },
+          {
+            "Name": "approvalRead", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "r:approval"
+          },
+          {
+            "Name": "approvalUpdate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "u:approval"
+          },
+          {
+            "Name": "approvalDelete", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "d:approval"
+          },
+          {
+            "Name": "limitCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:limit"
+          },
+          {
+            "Name": "limitRead", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "r:limit"
+          },
+          {
+            "Name": "limitUpdate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "u:limit"
+          },
+          {
+            "Name": "limitDelete", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "d:limit"
+          },
+          {
+            "Name": "transfer", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+          },
+          {
+            "Name": "confirm", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+          },
+          {
+            "Name": "balance", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+          }
+        ],
+
+        # Zome Source Code
+        # The logic that will control Zome behavior
+        "Code": "'use strict';\n\n// -----------------------------------------------------------------\n//  This stub Zome code file was auto-generated by hc-scaffold\n// -----------------------------------------------------------------\n\n// -----------------------------------------------------------------\n//  Exposed functions with custom logic https://developer.holochain.org/API_reference\n// -----------------------------------------------------------------\n\nfunction transactionCreate (transactionEntry) {\n  var transactionHash = commit(\"transaction\", transactionEntry);\n  return transactionHash;\n}\n\nfunction receiptCreate (receiptEntry) {\n  var receiptHash = commit(\"receipt\", receiptEntry);\n  return receiptHash;\n}\n\nfunction approvalCreate (approvalEntry) {\n  var approvalHash = commit(\"approval\", approvalEntry);\n  return approvalHash;\n}\n\nfunction approvalRead (approvalHash) {\n  var approval = get(approvalHash);\n  return approval;\n}\n\nfunction approvalUpdate (approvalHash) {\n  var sampleValue={\"amount\":1000,\"type\":\"Currency Type Hash\",\"needed_signatures\":2,\"targets\":{\"A\":10,\"B\":90},\"signatures\":[\"A\"],\"extraField\":true};\n  var approvalOutHash = update(\"approval\", sampleValue, approvalHash);\n  return approvalOutHash;\n}\n\nfunction approvalDelete (approvalHash) {\n  var result = remove(approvalHash, \"\");\n  return result;\n}\n\nfunction limitCreate (limitEntry) {\n  var limitHash = commit(\"limit\", limitEntry);\n  return limitHash;\n}\n\nfunction limitRead (limitHash) {\n  var limit = get(limitHash);\n  return limit;\n}\n\nfunction limitUpdate (limitHash) {\n  var sampleValue={\"total\":1000,\"type\":\"The actual currency name\",\"extraField\":true};\n  var limitOutHash = update(\"limit\", sampleValue, limitHash);\n  return limitOutHash;\n}\n\nfunction limitDelete (limitHash) {\n  var result = remove(limitHash, \"\");\n  return result;\n}\n\nfunction transfer (params) {\n  // your custom code here\n  return {};\n}\n\nfunction confirm (params) {\n  // your custom code here\n  return {};\n}\n\nfunction balance (params) {\n  // your custom code here\n  return {};\n}\n\n\n// -----------------------------------------------------------------\n//  The Genesis Function https://developer.holochain.org/genesis\n// -----------------------------------------------------------------\n\n/**\n * Called only when your source chain is generated\n * @return {boolean} success\n */\nfunction genesis () {\n  return true;\n}\n\n// -----------------------------------------------------------------\n//  Validation functions for every change to the local chain or DHT\n// -----------------------------------------------------------------\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateCommit (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"transaction\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"receipt\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"approval\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"limit\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validatePut (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"transaction\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"receipt\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"approval\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"limit\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {string} replaces - the hash for the entry being updated\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateMod (entryName, entry, header, replaces, pkg, sources) {\n  switch (entryName) {\n    case \"transaction\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"receipt\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"approval\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"limit\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} hash - the hash of the entry to remove\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateDel (entryName, hash, pkg, sources) {\n  switch (entryName) {\n    case \"transaction\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"receipt\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"approval\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"limit\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} baseHash - the hash of the base entry being linked\n * @param {?} links - ?\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateLink (entryName, baseHash, links, pkg, sources) {\n  switch (entryName) {\n    case \"transaction\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"receipt\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"approval\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    case \"limit\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validatePutPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateModPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateDelPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateLinkPkg (entryName) {\n  return null;\n}"
+      },
+      {
+
+        # Zome Name
+        # The name of this code module.
+        "Name": "badges",
+
+        # Zome Description
+        # What is the purpose of this module?
+        "Description": "Management of non-fungible non-transferable badges",
+
+        # Ribosome Type
+        # What scripting language will you code in?
+        "RibosomeType": "js",
+
+        # Code File
+        # Points to the main script file for this Zome.
+        "CodeFile": "badges.js",
+
+        # Zome Entries
+        # Data stored and tracked by your Zome.
+        "Entries": [
+          {
+            "Name": "badge", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"name\",\n    \"description\",\n    \"expiration_days\"\n  ],\n  \"properties\": {\n    \"name\": {\n      \"$id\": \"#/properties/name\",\n      \"type\": \"string\",\n      \"title\": \"The Name Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"Sustainable\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"description\": {\n      \"$id\": \"#/properties/description\",\n      \"type\": \"string\",\n      \"title\": \"The Description Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"For being sustainable you must sustain yourself\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"expiration_days\": {\n      \"$id\": \"#/properties/expiration_days\",\n      \"type\": \"integer\",\n      \"title\": \"The Expiration_days Schema\",\n      \"default\": 0,\n      \"examples\": [\n        365\n      ]\n    }\n  }\n}",
+            "_": "crud"
+          }
+        ],
+
+        # Zome Functions
+        # Functions which can be called in your Zome's API.
+        "Functions": [
+          {
+            "Name": "badgeCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:badge"
+          },
+          {
+            "Name": "badgeRead", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "r:badge"
+          },
+          {
+            "Name": "badgeUpdate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "u:badge"
+          },
+          {
+            "Name": "badgeDelete", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "d:badge"
+          },
+          {
+            "Name": "award", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "", # Level to which is this function exposed.
+          },
+          {
+            "Name": "revoke", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "", # Level to which is this function exposed.
+          }
+        ],
+
+        # Zome Source Code
+        # The logic that will control Zome behavior
+        "Code": "'use strict';\n\n// -----------------------------------------------------------------\n//  This stub Zome code file was auto-generated by hc-scaffold\n// -----------------------------------------------------------------\n\n// -----------------------------------------------------------------\n//  Exposed functions with custom logic https://developer.holochain.org/API_reference\n// -----------------------------------------------------------------\n\nfunction badgeCreate (badgeEntry) {\n  var badgeHash = commit(\"badge\", badgeEntry);\n  return badgeHash;\n}\n\nfunction badgeRead (badgeHash) {\n  var badge = get(badgeHash);\n  return badge;\n}\n\nfunction badgeUpdate (badgeHash) {\n  var sampleValue={\"name\":\"Sustainable\",\"description\":\"For being sustainable you must sustain yourself\",\"expiration_days\":365,\"extraField\":true};\n  var badgeOutHash = update(\"badge\", sampleValue, badgeHash);\n  return badgeOutHash;\n}\n\nfunction badgeDelete (badgeHash) {\n  var result = remove(badgeHash, \"\");\n  return result;\n}\n\nfunction award (params) {\n  // your custom code here\n  return {};\n}\n\nfunction revoke (params) {\n  // your custom code here\n  return {};\n}\n\n\n// -----------------------------------------------------------------\n//  The Genesis Function https://developer.holochain.org/genesis\n// -----------------------------------------------------------------\n\n/**\n * Called only when your source chain is generated\n * @return {boolean} success\n */\nfunction genesis () {\n  return true;\n}\n\n// -----------------------------------------------------------------\n//  Validation functions for every change to the local chain or DHT\n// -----------------------------------------------------------------\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateCommit (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"badge\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validatePut (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"badge\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {string} replaces - the hash for the entry being updated\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateMod (entryName, entry, header, replaces, pkg, sources) {\n  switch (entryName) {\n    case \"badge\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} hash - the hash of the entry to remove\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateDel (entryName, hash, pkg, sources) {\n  switch (entryName) {\n    case \"badge\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} baseHash - the hash of the base entry being linked\n * @param {?} links - ?\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateLink (entryName, baseHash, links, pkg, sources) {\n  switch (entryName) {\n    case \"badge\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validatePutPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateModPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateDelPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateLinkPkg (entryName) {\n  return null;\n}"
+      },
+      {
+
+        # Zome Name
+        # The name of this code module.
+        "Name": "context",
+
+        # Zome Description
+        # What is the purpose of this module?
+        "Description": "Managing content contexts",
+
+        # Ribosome Type
+        # What scripting language will you code in?
+        "RibosomeType": "js",
+
+        # Code File
+        # Points to the main script file for this Zome.
+        "CodeFile": "context.js",
+
+        # Zome Entries
+        # Data stored and tracked by your Zome.
+        "Entries": [
+          {
+            "Name": "context", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"title\"\n  ],\n  \"properties\": {\n    \"title\": {\n      \"$id\": \"#/properties/title\",\n      \"type\": \"string\",\n      \"title\": \"The Title Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"Hello world!\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+            "_": "cr"
+          }
+        ],
+
+        # Zome Functions
+        # Functions which can be called in your Zome's API.
+        "Functions": [
+          {
+            "Name": "contextCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:context"
+          },
+          {
+            "Name": "contextRead", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "r:context"
+          }
+        ],
+
+        # Zome Source Code
+        # The logic that will control Zome behavior
+        "Code": "'use strict';\n\n// -----------------------------------------------------------------\n//  This stub Zome code file was auto-generated by hc-scaffold\n// -----------------------------------------------------------------\n\n// -----------------------------------------------------------------\n//  Exposed functions with custom logic https://developer.holochain.org/API_reference\n// -----------------------------------------------------------------\n\nfunction contextCreate (contextEntry) {\n  var contextHash = commit(\"context\", contextEntry);\n  return contextHash;\n}\n\nfunction contextRead (contextHash) {\n  var context = get(contextHash);\n  return context;\n}\n\n\n// -----------------------------------------------------------------\n//  The Genesis Function https://developer.holochain.org/genesis\n// -----------------------------------------------------------------\n\n/**\n * Called only when your source chain is generated\n * @return {boolean} success\n */\nfunction genesis () {\n  return true;\n}\n\n// -----------------------------------------------------------------\n//  Validation functions for every change to the local chain or DHT\n// -----------------------------------------------------------------\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateCommit (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"context\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validatePut (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"context\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {string} replaces - the hash for the entry being updated\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateMod (entryName, entry, header, replaces, pkg, sources) {\n  switch (entryName) {\n    case \"context\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} hash - the hash of the entry to remove\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateDel (entryName, hash, pkg, sources) {\n  switch (entryName) {\n    case \"context\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} baseHash - the hash of the base entry being linked\n * @param {?} links - ?\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateLink (entryName, baseHash, links, pkg, sources) {\n  switch (entryName) {\n    case \"context\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validatePutPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateModPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateDelPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateLinkPkg (entryName) {\n  return null;\n}"
+      },
+      {
+
+        # Zome Name
+        # The name of this code module.
+        "Name": "messages",
+
+        # Zome Description
+        # What is the purpose of this module?
+        "Description": "Messages between users",
+
+        # Ribosome Type
+        # What scripting language will you code in?
+        "RibosomeType": "js",
+
+        # Code File
+        # Points to the main script file for this Zome.
+        "CodeFile": "messages.js",
+
+        # Zome Entries
+        # Data stored and tracked by your Zome.
+        "Entries": [
+          {
+            "Name": "message", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"text\"\n  ],\n  \"properties\": {\n    \"text\": {\n      \"$id\": \"#/properties/text\",\n      \"type\": \"string\",\n      \"title\": \"The Text Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"Hello world!\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+            "_": "crud"
+          }
+        ],
+
+        # Zome Functions
+        # Functions which can be called in your Zome's API.
+        "Functions": [
+          {
+            "Name": "messageCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:message"
+          },
+          {
+            "Name": "messageRead", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "r:message"
+          },
+          {
+            "Name": "messageUpdate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "u:message"
+          },
+          {
+            "Name": "messageDelete", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "d:message"
+          }
+        ],
+
+        # Zome Source Code
+        # The logic that will control Zome behavior
+        "Code": "'use strict';\n\n// -----------------------------------------------------------------\n//  This stub Zome code file was auto-generated by hc-scaffold\n// -----------------------------------------------------------------\n\n// -----------------------------------------------------------------\n//  Exposed functions with custom logic https://developer.holochain.org/API_reference\n// -----------------------------------------------------------------\n\nfunction messageCreate (messageEntry) {\n  var messageHash = commit(\"message\", messageEntry);\n  return messageHash;\n}\n\nfunction messageRead (messageHash) {\n  var message = get(messageHash);\n  return message;\n}\n\nfunction messageUpdate (messageHash) {\n  var sampleValue={\"text\":\"Hello world!\",\"extraField\":true};\n  var messageOutHash = update(\"message\", sampleValue, messageHash);\n  return messageOutHash;\n}\n\nfunction messageDelete (messageHash) {\n  var result = remove(messageHash, \"\");\n  return result;\n}\n\n\n// -----------------------------------------------------------------\n//  The Genesis Function https://developer.holochain.org/genesis\n// -----------------------------------------------------------------\n\n/**\n * Called only when your source chain is generated\n * @return {boolean} success\n */\nfunction genesis () {\n  return true;\n}\n\n// -----------------------------------------------------------------\n//  Validation functions for every change to the local chain or DHT\n// -----------------------------------------------------------------\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateCommit (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"message\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validatePut (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"message\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {string} replaces - the hash for the entry being updated\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateMod (entryName, entry, header, replaces, pkg, sources) {\n  switch (entryName) {\n    case \"message\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} hash - the hash of the entry to remove\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateDel (entryName, hash, pkg, sources) {\n  switch (entryName) {\n    case \"message\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} baseHash - the hash of the base entry being linked\n * @param {?} links - ?\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateLink (entryName, baseHash, links, pkg, sources) {\n  switch (entryName) {\n    case \"message\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validatePutPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateModPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateDelPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateLinkPkg (entryName) {\n  return null;\n}"
+      },
+      {
+
+        # Zome Name
+        # The name of this code module.
+        "Name": "cards",
+
+        # Zome Description
+        # What is the purpose of this module?
+        "Description": "Context cards",
+
+        # Ribosome Type
+        # What scripting language will you code in?
+        "RibosomeType": "js",
+
+        # Code File
+        # Points to the main script file for this Zome.
+        "CodeFile": "cards.js",
+
+        # Zome Entries
+        # Data stored and tracked by your Zome.
+        "Entries": [
+          {
+            "Name": "card", # The name of this entry.
+            "Required": true, # Is this entry required?
+            "DataFormat": "json", # What type of data should this entry store?
+            "Sharing": "public", # Should this entry be publicly accessible?
+            "Schema": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"The Root Schema\",\n  \"required\": [\n    \"card_type\",\n    \"card_content\"\n  ],\n  \"properties\": {\n    \"card_type\": {\n      \"$id\": \"#/properties/card_type\",\n      \"type\": \"string\",\n      \"title\": \"The Card_type Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"text\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"card_content\": {\n      \"$id\": \"#/properties/card_content\",\n      \"type\": \"string\",\n      \"title\": \"The Card_content Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"The body\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+            "_": "cr"
+          }
+        ],
+
+        # Zome Functions
+        # Functions which can be called in your Zome's API.
+        "Functions": [
+          {
+            "Name": "cardCreate", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "c:card"
+          },
+          {
+            "Name": "cardRead", # The name of this function.
+            "CallingType": "json", # Data format for parameters passed to this function.
+            "Exposure": "public", # Level to which is this function exposed.
+            "_": "r:card"
+          }
+        ],
+
+        # Zome Source Code
+        # The logic that will control Zome behavior
+        "Code": "'use strict';\n\n// -----------------------------------------------------------------\n//  This stub Zome code file was auto-generated by hc-scaffold\n// -----------------------------------------------------------------\n\n// -----------------------------------------------------------------\n//  Exposed functions with custom logic https://developer.holochain.org/API_reference\n// -----------------------------------------------------------------\n\nfunction cardCreate (cardEntry) {\n  var cardHash = commit(\"card\", cardEntry);\n  return cardHash;\n}\n\nfunction cardRead (cardHash) {\n  var card = get(cardHash);\n  return card;\n}\n\n\n// -----------------------------------------------------------------\n//  The Genesis Function https://developer.holochain.org/genesis\n// -----------------------------------------------------------------\n\n/**\n * Called only when your source chain is generated\n * @return {boolean} success\n */\nfunction genesis () {\n  return true;\n}\n\n// -----------------------------------------------------------------\n//  Validation functions for every change to the local chain or DHT\n// -----------------------------------------------------------------\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateCommit (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"card\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validatePut (entryName, entry, header, pkg, sources) {\n  switch (entryName) {\n    case \"card\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {*} entry - the entry data to be set\n * @param {object} header - header for the entry containing properties EntryLink, Time, and Type\n * @param {string} replaces - the hash for the entry being updated\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateMod (entryName, entry, header, replaces, pkg, sources) {\n  switch (entryName) {\n    case \"card\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} hash - the hash of the entry to remove\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateDel (entryName, hash, pkg, sources) {\n  switch (entryName) {\n    case \"card\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to validate any changes to the local chain or DHT\n * @param {string} entryName - the type of entry\n * @param {string} baseHash - the hash of the base entry being linked\n * @param {?} links - ?\n * @param {*} pkg - the extra data provided by the validate[X]Pkg methods\n * @param {object} sources - an array of strings containing the keys of any authors of this entry\n * @return {boolean} is valid?\n */\nfunction validateLink (entryName, baseHash, links, pkg, sources) {\n  switch (entryName) {\n    case \"card\":\n      // be sure to consider many edge cases for validating\n      // do not just flip this to true without considering what that means\n      // the action will ONLY be successfull if this returns true, so watch out!\n      return false;\n    default:\n      // invalid entry name\n      return false;\n  }\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validatePutPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateModPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateDelPkg (entryName) {\n  return null;\n}\n\n/**\n * Called to get the data needed to validate\n * @param {string} entryName - the name of entry to validate\n * @return {*} the data required for validation\n */\nfunction validateLinkPkg (entryName) {\n  return null;\n}"
+      }
+    ]
+  },
+
+  # TestSets
+  # Auto-Generated test sets for hcdev package
+  "TestSets": [
+    {
+
+      # Name
+      # Name of the Test Set
+      "Name": "currencies",
+      "TestSet": {
+        "Tests": [
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for transactionCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "transactionCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "from": "UserOrContextHash",
+              "to": "UserOrContextHash",
+              "type": "TypeHash",
+              "amount": 1,
+              "notes": "A simple transfer"
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for receiptCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "receiptCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "txHash": "OriginalTx commit hash",
+              "signature": "RecipientSignature"
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for approvalCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "approvalCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "amount": 1000,
+              "type": "Currency Type Hash",
+              "needed_signatures": 2,
+              "targets": {
+                "A": 10,
+                "B": 90
+              },
+              "signatures": [
+                "A"
+              ]
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for approvalRead",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "approvalRead",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": {
+              "amount": 1000,
+              "type": "Currency Type Hash",
+              "needed_signatures": 2,
+              "targets": {
+                "A": 10,
+                "B": 90
+              },
+              "signatures": [
+                "A"
+              ]
+            }
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for approvalUpdate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "approvalUpdate",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for approvalDelete",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "approvalDelete",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for limitCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "limitCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "total": 1000,
+              "type": "The actual currency name"
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for limitRead",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "limitRead",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": {
+              "total": 1000,
+              "type": "The actual currency name"
+            }
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for limitUpdate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "limitUpdate",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for limitDelete",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "limitDelete",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for transfer",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "transfer",
+
+            # Input
+            # Input sent to the function
+            "Input": "",
+
+            # Output
+            # Output from the function to validate
+            "Output": {}
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for confirm",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "confirm",
+
+            # Input
+            # Input sent to the function
+            "Input": "",
+
+            # Output
+            # Output from the function to validate
+            "Output": {}
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for balance",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "currencies",
+
+            # Function Name
+            # The function to test
+            "FnName": "balance",
+
+            # Input
+            # Input sent to the function
+            "Input": "",
+
+            # Output
+            # Output from the function to validate
+            "Output": {}
+          }
+        ]
+      }
+    },
+    {
+
+      # Name
+      # Name of the Test Set
+      "Name": "badges",
+      "TestSet": {
+        "Tests": [
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for badgeCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "badges",
+
+            # Function Name
+            # The function to test
+            "FnName": "badgeCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "name": "Sustainable",
+              "description": "For being sustainable you must sustain yourself",
+              "expiration_days": 365
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for badgeRead",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "badges",
+
+            # Function Name
+            # The function to test
+            "FnName": "badgeRead",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": {
+              "name": "Sustainable",
+              "description": "For being sustainable you must sustain yourself",
+              "expiration_days": 365
+            }
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for badgeUpdate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "badges",
+
+            # Function Name
+            # The function to test
+            "FnName": "badgeUpdate",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for badgeDelete",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "badges",
+
+            # Function Name
+            # The function to test
+            "FnName": "badgeDelete",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for award",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "badges",
+
+            # Function Name
+            # The function to test
+            "FnName": "award",
+
+            # Input
+            # Input sent to the function
+            "Input": "",
+
+            # Output
+            # Output from the function to validate
+            "Output": {}
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for revoke",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "badges",
+
+            # Function Name
+            # The function to test
+            "FnName": "revoke",
+
+            # Input
+            # Input sent to the function
+            "Input": "",
+
+            # Output
+            # Output from the function to validate
+            "Output": {}
+          }
+        ]
+      }
+    },
+    {
+
+      # Name
+      # Name of the Test Set
+      "Name": "context",
+      "TestSet": {
+        "Tests": [
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for contextCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "context",
+
+            # Function Name
+            # The function to test
+            "FnName": "contextCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "title": "Hello world!"
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for contextRead",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "context",
+
+            # Function Name
+            # The function to test
+            "FnName": "contextRead",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": {
+              "title": "Hello world!"
+            }
+          }
+        ]
+      }
+    },
+    {
+
+      # Name
+      # Name of the Test Set
+      "Name": "messages",
+      "TestSet": {
+        "Tests": [
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for messageCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "messages",
+
+            # Function Name
+            # The function to test
+            "FnName": "messageCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "text": "Hello world!"
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for messageRead",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "messages",
+
+            # Function Name
+            # The function to test
+            "FnName": "messageRead",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": {
+              "text": "Hello world!"
+            }
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for messageUpdate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "messages",
+
+            # Function Name
+            # The function to test
+            "FnName": "messageUpdate",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for messageDelete",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "messages",
+
+            # Function Name
+            # The function to test
+            "FnName": "messageDelete",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          }
+        ]
+      }
+    },
+    {
+
+      # Name
+      # Name of the Test Set
+      "Name": "cards",
+      "TestSet": {
+        "Tests": [
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for cardCreate",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "cards",
+
+            # Function Name
+            # The function to test
+            "FnName": "cardCreate",
+
+            # Input
+            # Input sent to the function
+            "Input": {
+              "card_type": "text",
+              "card_content": "The body"
+            },
+
+            # Output
+            # Output from the function to validate
+            "Output": "%h%"
+          },
+          {
+
+            # Convey
+            # Description of this test
+            "Convey": "auto-generated test for cardRead",
+
+            # Zome
+            # The zome this test is related to
+            "Zome": "cards",
+
+            # Function Name
+            # The function to test
+            "FnName": "cardRead",
+
+            # Input
+            # Input sent to the function
+            "Input": "%h%",
+
+            # Output
+            # Output from the function to validate
+            "Output": {
+              "card_type": "text",
+              "card_content": "The body"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

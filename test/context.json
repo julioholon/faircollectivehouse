@@ -1,0 +1,22 @@
+{
+  "Tests": [
+    {
+      "Convey": "auto-generated test for contextCreate",
+      "Zome": "context",
+      "FnName": "contextCreate",
+      "Input": {
+        "title": "Hello world!"
+      },
+      "Output": "%h%"
+    },
+    {
+      "Convey": "auto-generated test for contextRead",
+      "Zome": "context",
+      "FnName": "contextRead",
+      "Input": "%h%",
+      "Output": {
+        "title": "Hello world!"
+      }
+    }
+  ]
+}
